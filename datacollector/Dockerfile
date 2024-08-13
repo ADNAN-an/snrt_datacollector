@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the local JAR file to the container
-COPY target/datacollector.jar /app/datacollector.jar
+COPY target/datacollector-0.0.1-SNAPSHOT.jar /app/datacollector.jar
 
 # Expose the port your application will run on
 EXPOSE 8080
