@@ -43,12 +43,23 @@ public class DonneesController {
                 ipAddress = request.getRemoteAddr();
             }
 
-            //GET DEVICE TYPE
             String userAgent = request.getHeader("User-Agent");
+            if (userAgent == null || userAgent.isEmpty()) {
+                return ResponseEntity.badRequest().body("User-Agent header is missing.");
+            }
+
+            //GET DEVICE TYPE
             String deviceType = donneesService.detectDeviceType(userAgent);
 
             //GET COUNTRY
             Map<String, String> locationInfo = donneesService.ipInfo(ipAddress, "location");
+
+            // Get Browser Name and Version
+            String browserName = donneesService.getBrowserName(userAgent);
+            String browserVersion = donneesService.getBrowserVersion(userAgent);
+
+            //Get OS Name
+            String osName = donneesService.getOperatingSystemName(userAgent);
 
             Donnees newData = new Donnees();
             newData.setEventType(data.getEventType());
@@ -56,9 +67,9 @@ public class DonneesController {
             newData.setIpAddress(ipAddress);
             newData.setCountry(locationInfo.getOrDefault("country", "Unknown"));
             newData.setCity(locationInfo.getOrDefault("city", "Unknown"));
-            newData.setBrowser(data.getBrowser().getName() + " " + data.getBrowser().getVersion());
+            newData.setBrowser(browserName + " " + browserVersion);
             newData.setDeviceType(deviceType);
-            newData.setOperatingSystem(data.getOperatingSystem().getName() + " " + data.getOperatingSystem().getVersion());
+            newData.setOperatingSystem(osName);
             newData.setCreationDate(new Date());
 
             Plateforme plateforme = plateformeRepository.findByPlatformName(data.getPlateformeName())

@@ -4,6 +4,8 @@ import com.snrt.datacollector.repositories.DonneesRepository;
 import com.snrt.datacollector.models.Donnees;
 import com.snrt.datacollector.models.Plateforme;
 import com.snrt.datacollector.repositories.PlateformeRepository;
+import eu.bitwalker.useragentutils.OperatingSystem;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -46,7 +48,7 @@ public class DonneesService {
 
     public Map<String, String> ipInfo(String ip, String purpose) {
         if (ip == null || ip.isEmpty()) {
-            return new HashMap<>(); // Return an empty map if no IP is provided
+            return new HashMap<>();
         }
 
         String apiUrl = "http://www.geoplugin.net/json.gp?ip=" + ip;
@@ -63,6 +65,22 @@ public class DonneesService {
         }
 
         return result;
+    }
+
+    public String getBrowserName(String userAgent) {
+        UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+        return agent.getBrowser().getName();
+    }
+
+    public String getBrowserVersion(String userAgent) {
+        UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+        return agent.getBrowserVersion().getVersion();
+    }
+
+    public String getOperatingSystemName(String userAgent) {
+        UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+        OperatingSystem os = agent.getOperatingSystem();
+        return os.getName();
     }
 
     public Plateforme addPlateforme(Plateforme plateforme) {
