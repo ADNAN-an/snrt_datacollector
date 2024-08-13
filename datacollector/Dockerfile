@@ -1,14 +1,16 @@
-# Use an official Java runtime as a parent image
-FROM openjdk:17-jdk-slim
-
-# Set the working directory
+#
+# Build stage
+#
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /app
+COPY . /app/
+RUN mvn clean package
 
-# Copy the local JAR file to the container
-COPY target/datacollector-0.0.1-SNAPSHOT.jar /app/datacollector.jar
-
-# Expose the port your application will run on
+#
+# Package stage
+#
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8080
-
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "datacollector.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
