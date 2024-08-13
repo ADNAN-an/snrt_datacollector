@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/data")
@@ -36,19 +37,27 @@ public class DonneesController {
     @PostMapping("/add")
     public ResponseEntity<String> addData(@RequestBody DonneesRequestDto data, HttpServletRequest request) {
         try {
+            //GET IP ADDRESS
             String ipAddress = request.getHeader("X-Forwarded-For");
             if (ipAddress == null || ipAddress.isEmpty()) {
                 ipAddress = request.getRemoteAddr();
             }
 
+            //GET DEVICE TYPE
+            String userAgent = request.getHeader("User-Agent");
+            String deviceType = donneesService.detectDeviceType(userAgent);
+
+            //GET COUNTRY
+            Map<String, String> locationInfo = donneesService.ipInfo(ipAddress, "location");
+
             Donnees newData = new Donnees();
             newData.setEventType(data.getEventType());
             newData.setValue(data.getValue());
             newData.setIpAddress(ipAddress);
-            newData.setCountry(data.getCountry());
-            newData.setCity(data.getCity());
+            newData.setCountry(locationInfo.getOrDefault("country", "Unknown"));
+            newData.setCity(locationInfo.getOrDefault("city", "Unknown"));
             newData.setBrowser(data.getBrowser().getName() + " " + data.getBrowser().getVersion());
-            newData.setDeviceType(data.getDeviceType());
+            newData.setDeviceType(deviceType);
             newData.setOperatingSystem(data.getOperatingSystem().getName() + " " + data.getOperatingSystem().getVersion());
             newData.setCreationDate(new Date());
 
@@ -66,7 +75,6 @@ public class DonneesController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the request.");
         }
     }
-
 
 
     @DeleteMapping("/delete/{dataId}")
