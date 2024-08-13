@@ -1,7 +1,11 @@
-package com.snrt.datacollector.donnees;
+package com.snrt.datacollector.controllers;
 
-import com.snrt.datacollector.plateforme.Plateforme;
-import com.snrt.datacollector.plateforme.PlateformeRepository;
+import com.snrt.datacollector.DTO.DonneesRequestDto;
+import com.snrt.datacollector.services.DonneesService;
+import com.snrt.datacollector.models.Donnees;
+import com.snrt.datacollector.models.Plateforme;
+import com.snrt.datacollector.repositories.PlateformeRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +34,17 @@ public class DonneesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addData(@RequestBody DonneesRequestDto data) {
+    public ResponseEntity<String> addData(@RequestBody DonneesRequestDto data, HttpServletRequest request) {
         try {
+            String ipAddress = request.getHeader("X-Forwarded-For");
+            if (ipAddress == null || ipAddress.isEmpty()) {
+                ipAddress = request.getRemoteAddr();
+            }
+
             Donnees newData = new Donnees();
             newData.setEventType(data.getEventType());
             newData.setValue(data.getValue());
-            newData.setIpAddress(data.getIpAddress());
+            newData.setIpAddress(ipAddress);
             newData.setCountry(data.getCountry());
             newData.setCity(data.getCity());
             newData.setBrowser(data.getBrowser().getName() + " " + data.getBrowser().getVersion());

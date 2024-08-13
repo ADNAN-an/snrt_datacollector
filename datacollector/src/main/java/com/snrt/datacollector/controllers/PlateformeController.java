@@ -1,10 +1,7 @@
-package com.snrt.datacollector.plateforme;
+package com.snrt.datacollector.controllers;
 
-import com.snrt.datacollector.donnees.Donnees;
+import com.snrt.datacollector.services.PlateformeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

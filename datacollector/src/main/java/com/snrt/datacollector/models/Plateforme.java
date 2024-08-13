@@ -1,12 +1,9 @@
-package com.snrt.datacollector.plateforme;
+package com.snrt.datacollector.models;
 
-import com.snrt.datacollector.donnees.Donnees;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

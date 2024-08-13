@@ -1,4 +1,4 @@
-package com.snrt.datacollector.donnees;
+package com.snrt.datacollector.DTO;
 
 import lombok.Data;
 

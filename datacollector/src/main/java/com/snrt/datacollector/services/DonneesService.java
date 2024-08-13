@@ -1,11 +1,12 @@
-package com.snrt.datacollector.donnees;
+package com.snrt.datacollector.services;
 
-import com.snrt.datacollector.plateforme.Plateforme;
-import com.snrt.datacollector.plateforme.PlateformeRepository;
+import com.snrt.datacollector.repositories.DonneesRepository;
+import com.snrt.datacollector.models.Donnees;
+import com.snrt.datacollector.models.Plateforme;
+import com.snrt.datacollector.repositories.PlateformeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service

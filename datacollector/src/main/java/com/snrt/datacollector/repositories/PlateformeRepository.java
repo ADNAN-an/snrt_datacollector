@@ -1,5 +1,6 @@
-package com.snrt.datacollector.plateforme;
+package com.snrt.datacollector.repositories;
 
+import com.snrt.datacollector.models.Plateforme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

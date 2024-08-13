@@ -1,6 +1,5 @@
-package com.snrt.datacollector.donnees;
+package com.snrt.datacollector.models;
 
-import com.snrt.datacollector.plateforme.Plateforme;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
