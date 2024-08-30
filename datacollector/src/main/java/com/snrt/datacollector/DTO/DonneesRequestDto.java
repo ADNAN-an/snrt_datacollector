@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DonneesRequestDto {
     private String eventType;
-    private String value;
+    private String page_uri;
     private String ipAddress;
     private String country;
     private String city;
@@ -13,7 +13,7 @@ public class DonneesRequestDto {
     private String deviceType;
     private OperatingSystemDto operatingSystem;
     private String plateformeName;
-
+    private String additionalInfo;
     @Data
     public static class BrowserDto {
         private String name;

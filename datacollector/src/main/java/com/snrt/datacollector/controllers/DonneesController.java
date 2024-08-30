@@ -63,7 +63,7 @@ public class DonneesController {
 
             Donnees newData = new Donnees();
             newData.setEventType(data.getEventType());
-            newData.setValue(data.getValue());
+            newData.setPage_uri(data.getPage_uri());
             newData.setIpAddress(ipAddress);
             newData.setCountry(locationInfo.getOrDefault("country", "Unknown"));
             newData.setCity(locationInfo.getOrDefault("city", "Unknown"));
@@ -71,7 +71,7 @@ public class DonneesController {
             newData.setDeviceType(deviceType);
             newData.setOperatingSystem(osName);
             newData.setCreationDate(new Date());
-
+            newData.setAdditionalInfo(data.getAdditionalInfo());
             Plateforme plateforme = plateformeRepository.findByPlatformName(data.getPlateformeName())
                     .orElseGet(() -> {
                         Plateforme newPlateforme = new Plateforme();

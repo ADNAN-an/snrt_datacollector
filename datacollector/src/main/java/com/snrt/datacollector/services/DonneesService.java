@@ -86,14 +86,4 @@ public class DonneesService {
     public Plateforme addPlateforme(Plateforme plateforme) {
         return plateformeRepository.save(plateforme);
     }
-
-    public void deleteData(int dataId) {
-        boolean exists = donneesRepository.existsById(dataId);
-
-        if (!exists) {
-            throw new RuntimeException("Data not found with ID: " + dataId);
-        } else {
-            donneesRepository.deleteById(dataId);
-        }
-    }
 }

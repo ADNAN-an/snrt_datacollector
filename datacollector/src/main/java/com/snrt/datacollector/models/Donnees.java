@@ -18,7 +18,7 @@ public class Donnees {
     private int dataId;
     private String ipAddress;
     private String eventType;
-    private String value;
+    private String page_uri;
     private String country;
     private String city;
     private String browser;
@@ -30,4 +30,6 @@ public class Donnees {
     @ManyToOne
     @JoinColumn(name = "plateforme_id")
     private Plateforme plateforme;
+    @Column(columnDefinition = "json")
+    private String additionalInfo;
 }
