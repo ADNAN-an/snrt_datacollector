@@ -20,7 +20,7 @@ public class DataInitializerConfig {
     public ApplicationRunner initializer() {
         return args -> {
             String superAdminEmail = "superadmin@example.com";
-            String superAdminPassword = "SuperSecretPassword"; // Use a strong password and ideally get it from an environment variable
+            String superAdminPassword = "SuperSecretPassword";
 
             try {
                 // Attempt to create the SuperAdmin

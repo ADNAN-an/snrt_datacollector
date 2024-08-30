@@ -87,14 +87,4 @@ public class DonneesController {
         }
     }
 
-
-    @DeleteMapping("/delete/{dataId}")
-    public ResponseEntity<String> deleteData(@PathVariable("dataId") int dataId) {
-        try {
-            donneesService.deleteData(dataId);
-            return ResponseEntity.ok("Data deleted successfully.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
-    }
 }

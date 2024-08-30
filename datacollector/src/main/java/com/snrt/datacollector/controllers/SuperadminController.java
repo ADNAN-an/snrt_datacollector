@@ -1,6 +1,7 @@
 package com.snrt.datacollector.controllers;
 
 import com.snrt.datacollector.DTO.CreateAdminRequest;
+import com.snrt.datacollector.DTO.UpdateUserRequest;
 import com.snrt.datacollector.exceptions.UserAlreadyExistsException;
 import com.snrt.datacollector.models.User;
 import com.snrt.datacollector.services.UserService;
@@ -45,6 +46,18 @@ public class SuperadminController {
 			return ResponseEntity.ok("User with ID " + id + " was successfully deleted.");
 		} else {
 			return ResponseEntity.status(404).body("User with ID " + id + " does not exist.");
+		}
+	}
+
+	@PutMapping("/update-user/{id}")
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+		try {
+			User updatedUser = userService.updateUser(id, request.getEmail(), request.getPassword(), request.getRole());
+			return ResponseEntity.ok(updatedUser);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		} catch (UserAlreadyExistsException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
 

@@ -69,4 +69,31 @@ public class UserService {
             return false;
         }
     }
+
+    @Transactional
+    @PreAuthorize("hasRole('SUPERADMIN') or hasRole('ADMIN')")
+    public User updateUser(Long id, String newEmail, String newPassword, Role newRole) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (!optionalUser.isPresent()) {
+            throw new IllegalArgumentException("User with ID " + id + " does not exist.");
+        }
+
+        User user = optionalUser.get();
+
+        if (newEmail != null && !newEmail.equals(user.getEmail()) && userRepository.findByEmail(newEmail).isPresent()) {
+            throw new UserAlreadyExistsException("User with email " + newEmail + " already exists.");
+        }
+
+        if (newEmail != null) {
+            user.setEmail(newEmail);
+        }
+        if (newPassword != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+        }
+        if (newRole != null) {
+            user.setRole(newRole);
+        }
+
+        return userRepository.save(user);
+    }
 }
